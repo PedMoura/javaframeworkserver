@@ -24,7 +24,7 @@ public class Main {
     	configurator();
     	ResponseClass res_options = new ResponseClass();
     	//port(4567);
-    	secure("/home/pedro/eclipse-workspace/keystore.jks", "asint2017", null, null);//ssl
+    	secure("/home/pedro/Desktop/sparkframeworkserver/deploy/keystore.jks", "password", null, null);//ssl
     	
     	/*
     	 * ROUTES
