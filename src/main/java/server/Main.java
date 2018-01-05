@@ -24,7 +24,7 @@ public class Main {
     	configurator();
     	ResponseClass res_options = new ResponseClass();
     	//port(4567);
-    	secure("/home/pedro/Desktop/sparkframeworkserver/deploy/keystore.jks", "password", null, null);//ssl
+    	//secure("/home/pedro/eclipse-workspace/keystore.jks", "asint2017", null, null);//ssl
     	
     	/*
     	 * ROUTES
@@ -86,7 +86,7 @@ public class Main {
         	get("/obj/:n", (request1,response1) ->{
             	int index = Integer.parseInt(request1.params(":n"));
             	if(index < objarray.size()) {
-            		return objarray.get(0).getMethod("exec").invoke(objarray.get(0).newInstance());
+            		return objarray.get(index).getMethod("exec").invoke(objarray.get(index).newInstance());
             	}else {
             		return "no such object";
             	}
