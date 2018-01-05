@@ -1,0 +1,12 @@
+package my.app;
+
+import static spark.Spark.*;
+
+
+public class Main {
+	private void BC  = new BasicConfigurator();
+	
+    public static void main(String[] args) {
+        get("/hello", (req, res) -> "Hello World");
+    }
+}

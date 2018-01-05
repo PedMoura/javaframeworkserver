@@ -1,0 +1,46 @@
+package server;
+
+import static spark.Spark.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.log4j.BasicConfigurator;
+
+
+/*source code sparkjava
+ * logger
+ * modificar o metodo echo para uma classe diferente
+ 
+*/
+public class Main {
+	
+	
+	public static void configurator() {
+		BasicConfigurator.configure();
+	}
+
+	
+	public static void main(String[] args){
+    	configurator();
+    	new DynamicThread().start();
+    	ResponseClass res_options = new ResponseClass(); 
+    	get("/hello", (req, res) -> "Hello World");
+        get("/echo/:id", (req,res) -> {
+            return res_options.Echo(req.params(":id"));
+        });      
+        get("/Dynamic", (req,res) -> {
+        	return DynamicRouteLoader.loader();
+        	
+        });
+        
+        after((request, response) -> {
+            if (response.raw().getStatus() == 200) {
+                // here run the code that will report the error e.g. 
+            	DynamicRouteLoader.loader();
+            }
+        });
+       
+        		  
+    }
+}

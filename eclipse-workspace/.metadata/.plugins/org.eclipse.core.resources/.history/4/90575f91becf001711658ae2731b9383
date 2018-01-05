@@ -1,0 +1,37 @@
+package server;
+
+import org.eclipse.jetty.server.AbstractNCSARequestLog;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
+
+import spark.embeddedserver.jetty.EmbeddedJettyFactory;
+
+public class EmbeddedJettyFactoryConstructor {
+    AbstractNCSARequestLog requestLog;
+
+    public EmbeddedJettyFactoryConstructor(AbstractNCSARequestLog requestLog) {
+        this.requestLog = requestLog;
+    }
+    Server CreateServer() {
+    	Server server;
+        int maxThreads = 0;
+		if (maxThreads > 0) {
+            int max = maxThreads > 0 ? maxThreads : 200;
+            int minThreads = 0;
+			int min = minThreads > 0 ? minThreads : 8;
+            char threadTimeoutMillis = 0;
+			int idleTimeout = threadTimeoutMillis > 0 ? threadTimeoutMillis : '\uea60';
+            server = new Server(new QueuedThreadPool(max, min, idleTimeout));
+        } else {
+            server = new Server();
+        }
+
+        server.setRequestLog(requestLog);
+        return server;
+    	
+    }
+    EmbeddedJettyFactory create() {
+    	temp = new EmbeddedJettyFactory((maxThreads, minThreads, threadTimeoutMillis) -> CreateServer());
+        return temp;
+    }
+}

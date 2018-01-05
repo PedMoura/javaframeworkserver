@@ -1,0 +1,30 @@
+package server;
+
+import static spark.Spark.*;
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.LoggerFactory; 
+
+/*source code sparkjava
+ * logger
+ * modificar o metodo echo para uma classe diferente
+ 
+*/
+public class Main {
+	
+	private static Logger logger;
+
+	public static void configurator() {
+		BasicConfigurator.configure();
+	}
+		
+    public static void main(String[] args) {
+    	configurator();
+    	
+    	logger = LoggerFactory.getLogger(Main.class);
+
+    	get("/hello", (req, res) -> "Hello World");
+        get("/echo/:id", (req,res) -> ResponseClass.Echo(req.params(":id")));
+    }
+    
+
+}
