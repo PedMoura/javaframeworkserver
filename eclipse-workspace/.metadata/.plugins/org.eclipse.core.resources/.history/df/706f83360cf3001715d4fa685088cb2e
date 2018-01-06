@@ -97,10 +97,9 @@ public class Main {
         	return "class loaded";
         });
         
-        get("createobject/:classname", (request,response) -> {//TODO not implemented
+        get("createobject/:classname", (request,response) -> {
         	Class<?> newClass = DynamicRouteLoader.loader(request.params(":classname"));
         	objarray.add(newClass);
-        	//criar /0 ...
         	return "class loaded";
         });
         
