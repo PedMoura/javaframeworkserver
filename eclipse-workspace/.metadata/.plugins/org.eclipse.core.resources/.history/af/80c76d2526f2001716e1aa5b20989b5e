@@ -1,0 +1,54 @@
+package client;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
+
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.Response;
+
+public class Main {
+	public static void main(String[] args){
+		/*Client client = ClientBuilder.newBuilder().build();
+		Response response = client.target(URI.create("http://localhost:4567/hello"))
+	            .request()
+	            .get();
+		System.out.println("something " + response.);
+		return;*/
+		URL url;
+		InputStream is = null;
+		BufferedReader br;
+		String line;
+		
+		url = new URL("http://localhost:4567/hello");
+		is = url.openStream();
+		br = new BufferedReader(new InputStreamReader(is));
+		
+		while((line = br.readLine()) != null) {
+			if(fetch.fetchWord("Lisboa",line) != 0) {
+				line = br.readLine();
+				System.out.println("Temperatura para lisboa");
+				maxima = Integer.parseInt(
+						line.substring(
+								line.indexOf("&nbsp;")+"&nbsp;".length(),
+								line.lastIndexOf("<em>")
+								)
+						);
+				System.out.println("max = " + maxima);
+				
+				line = br.readLine();
+				minima = Integer.parseInt(
+						line.substring(
+								line.indexOf("&nbsp;")+"&nbsp;".length(),
+								line.lastIndexOf("<em>")
+								)
+						);
+				System.out.println("min = " + minima);
+				return;
+			}
+		}
+		return;
+	}
+}

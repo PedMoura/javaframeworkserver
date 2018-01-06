@@ -1,3 +1,5 @@
+DEBUG.consoleOpenOnErr=false
+DEBUG.consoleOpenOnOut=false
 eclipse.preferences.version=1
 org.eclipse.debug.ui.Color=225,30,70
 org.eclipse.debug.ui.MemoryHistoryKnownColor=235,235,235

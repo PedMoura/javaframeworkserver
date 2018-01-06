@@ -1,0 +1,17 @@
+package client;
+
+import java.net.URI;
+
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.Response;
+
+public class Main {
+	public static void main(String[] args){
+		Client client = ClientBuilder.newBuilder().build();
+		Response response = client.target(URI.create("http://localhost:4567/healthcheck"))
+	            .request()
+	            .get();
+		System.out.println("somethinf");
+		return;
+	}
+}

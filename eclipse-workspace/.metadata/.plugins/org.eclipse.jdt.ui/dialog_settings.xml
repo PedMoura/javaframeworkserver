@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item value="/home/pedro/eclipse-workspace/sparkframeworkserver/Userjars" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="/home/pedro/Desktop" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
 		<item value="false" key="updateQualifiedNames"/>
 		<item value="*" key="patterns"/>

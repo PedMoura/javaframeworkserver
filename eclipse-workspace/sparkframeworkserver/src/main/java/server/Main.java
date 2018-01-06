@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public class Main {
@@ -24,7 +26,7 @@ public class Main {
     	configurator();
     	ResponseClass res_options = new ResponseClass();
     	//port(4567);
-    	secure("/home/pedro/eclipse-workspace/keystore.jks", "asint2017", null, null);//ssl
+    	//secure("/home/pedro/eclipse-workspace/keystore.jks", "asint2017", null, null);//ssl
     	
     	/*
     	 * ROUTES
@@ -86,13 +88,30 @@ public class Main {
         	get("/obj/:n", (request1,response1) ->{
             	int index = Integer.parseInt(request1.params(":n"));
             	if(index < objarray.size()) {
-            		return objarray.get(0).getMethod("exec").invoke(objarray.get(0).newInstance());
+            		return objarray.get(index).getMethod("exec").invoke(objarray.get(index).newInstance());
             	}else {
             		return "no such object";
             	}
         	});
         	//return objarray.get(0).getMethod("exec").invoke(objarray.get(0).newInstance());
         	return "class loaded";
+        });
+        
+        get("createobject/:classname", (request,response) -> {
+        	Class<?> newClass = DynamicRouteLoader.loader(request.params(":classname"));
+        	objarray.add(newClass);
+        	return "class loaded";
+        });
+        
+        post("/uploadclass", (request,response) -> {//terminal curl -i -X POST -H 'Content-Type: application/json' -d '{"classname": "Class1"}' http://localhost:4567/uploadclass
+        	//recebe um object .class, grava numa arraylist
+        	//depois é ir ao arraylist e fazer load
+        	
+        	String str = request.body();
+        	JSONObject obj = new JSONObject(str);
+        	return obj.getString("classname")
+        			+"\n";
+        	//return "nothing";
         });
     }
 

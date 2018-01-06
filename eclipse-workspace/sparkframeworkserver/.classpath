@@ -51,5 +51,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/home/pedro/eclipse-workspace/sparkframeworkserver/Userjars/serverjar.jar"/>
+	<classpathentry kind="lib" path="/home/pedro/Desktop/json-20090211.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
