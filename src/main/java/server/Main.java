@@ -2,11 +2,25 @@ package server;
 
 import static spark.Spark.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.Part;
+
 import org.apache.log4j.BasicConfigurator;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import spark.utils.IOUtils;
 
 
 public class Main {
@@ -24,8 +38,10 @@ public class Main {
     	configurator();
     	ResponseClass res_options = new ResponseClass();
     	//port(4567);
-    	//secure("/home/pedro/eclipse-workspace/keystore.jks", "asint2017", null, null);//ssl
+    	secure("/home/pedro/eclipse-workspace/sparkframeworkserver/deploy/keystore.jks", "asint2017", null, null);//ssl
     	
+        File uploadDir = new File("Customjar");
+        uploadDir.mkdir(); // create the upload directory if it doesn't exist
     	/*
     	 * ROUTES
     	 */
@@ -52,7 +68,7 @@ public class Main {
         
         
         get("/Dynamic", (request,response) -> { //Dynamic Route - the method is loaded during runtime
-        	Class<?> newClass = DynamicRouteLoader.loader("ResponseClass");
+        	Class<?> newClass = DynamicRouteLoader.Loader("ResponseClass");
         	return newClass.getMethod("Dynamic").invoke(newClass.newInstance());       	
         });        	
         
@@ -81,7 +97,8 @@ public class Main {
         });
         
         get("/createobject", (request,response) ->{//ler from jar a class e nao deste package
-        	Class<?> newClass = DynamicRouteLoader.loader("loadfromjar.Class1");
+        	//Class<?> newClass = DynamicRouteLoader.Loader("loadfromjar.Class1");
+        	Class<?> newClass = DynamicRouteLoader.CustomLoader("Serverjar.jar");
         	objarray.add(newClass);
         	get("/obj/:n", (request1,response1) ->{
             	int index = Integer.parseInt(request1.params(":n"));
@@ -94,6 +111,41 @@ public class Main {
         	//return objarray.get(0).getMethod("exec").invoke(objarray.get(0).newInstance());
         	return "class loaded";
         });
+
+        get("/uploadclass", (req, res) ->
+			  "<form method='post' enctype='multipart/form-data'>" // note the enctype
+			+ "    <input type='file' name='uploaded_file' accept=''>" // make sure to call getPart using the same "name" in the post
+			+ "    <button>Upload file</button>"
+			+ "</form>"
+		);
+		
+		post("/uploadclass", (req, res) -> {
+		
+			Path tempFile = Files.createTempFile(uploadDir.toPath(), "", ".jar");
+					
+			req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+					
+			try (InputStream input = req.raw().getPart("uploaded_file").getInputStream()) { // getPart needs to use same "name" as input field in form
+				Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+			}
+			return "You uploaded this file:" + tempFile.getFileName() ;
+					
+		});
+		
+        get("createobject/:classname", (request,response) -> {//TODO not implemented
+        	Class<?> newClass = DynamicRouteLoader.CustomLoader(request.params(":classname"));
+        	objarray.add(newClass);
+        	get("/obj/:n", (request1,response1) ->{
+            	int index = Integer.parseInt(request1.params(":n"));
+            	if(index < objarray.size()) {
+            		return objarray.get(index).getMethod("exec").invoke(objarray.get(index).newInstance());
+            	}else {
+            		return "no such object";
+            	}
+        	});
+        	return "class loaded";
+        });
+
     }
 
 
