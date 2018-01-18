@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
@@ -126,9 +127,16 @@ public class Main {
 			req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 					
 			try (InputStream input = req.raw().getPart("uploaded_file").getInputStream()) { // getPart needs to use same "name" as input field in form
-				Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
-			}
-			return "You uploaded this file:" + tempFile.getFileName() ;
+                System.out.println(getFileName(req.raw().getPart("uploaded_file")));
+            	Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);       
+                
+                //Directoria para guardar os ficheiros upload
+        		Path destination = Paths.get("Customjar/" + getFileName(req.raw().getPart("uploaded_file")));
+                Files.copy(tempFile, destination, StandardCopyOption.REPLACE_EXISTING);
+                tempFile.toFile().delete();
+           
+            }
+			return "You uploaded this file: " + getFileName(req.raw().getPart("uploaded_file")) ;
 					
 		});
 		
@@ -153,4 +161,12 @@ public class Main {
 		Date date = new Date(creationTime);
 		return date;
 	}
+	private static String getFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
 }
