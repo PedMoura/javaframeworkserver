@@ -12,14 +12,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Res" key="selection"/>
+		<item value="" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="res"/>
-			<item value="secure"/>
+			<item value="json"/>
+			<item value="path"/>
+			<item value="hascode"/>
+			<item value="hashcode"/>
+			<item value="loadclass"/>
+			<item value="urls"/>
+			<item value="jjaaaaaaaaarrrrrrrrrrrrrpath"/>
+			<item value="&#x0A;&#x09;&#x09;&#x09;System.out.println(&quot;jjaaaaaaaaarrrrrrrrrrrrrpath&quot;);"/>
 		</list>
 		<list key="replacehistory">
 			<item value="response"/>

@@ -12,12 +12,50 @@
 	<atom:link href="https://www.genuitec.com/feed/" rel="self" type="application/rss+xml" />
 	<link>https://www.genuitec.com</link>
 	<description>The Cloud Control Company</description>
-	<lastBuildDate>Fri, 05 Jan 2018 19:09:16 +0000</lastBuildDate>
+	<lastBuildDate>Thu, 18 Jan 2018 14:06:50 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=4.6.1</generator>
 	<item>
+		<title>Maven Dependency Management &#8211; without Going Full Maven</title>
+		<link>https://www.genuitec.com/maven-dependency-management-without-full-maven/</link>
+		<pubDate>Thu, 11 Jan 2018 18:27:17 +0000</pubDate>
+		<dc:creator><![CDATA[Wanda Muriy]]></dc:creator>
+				<category><![CDATA[Eclipse]]></category>
+		<category><![CDATA[Genuitec]]></category>
+		<category><![CDATA[MyEclipse]]></category>
+		<category><![CDATA[Programming Tips]]></category>
+		<category><![CDATA[Webclipse]]></category>
+		<category><![CDATA[dependencies]]></category>
+		<category><![CDATA[dependency management]]></category>
+		<category><![CDATA[maven]]></category>
+
+		<guid isPermaLink="false">https://www.genuitec.com/?p=533788</guid>
+		<description><![CDATA[<p>You may have already discovered the joys of managing your projects with Maven, thanks to a virtually endless range of features it has to offer. Whether you are a newbie or a pro, using it in MyEclipse will take it to a whole new level if you are looking for a better experience inside an [&#8230;]</p>
+<p>The post <a rel="nofollow" href="https://www.genuitec.com/maven-dependency-management-without-full-maven/">Maven Dependency Management &#8211; without Going Full Maven</a> appeared first on <a rel="nofollow" href="https://www.genuitec.com">Genuitec</a>.</p>
+]]></description>
+		</item>
+		<item>
+		<title>Creating Twitter Clone Using HTML, CSS, jQuery</title>
+		<link>https://www.genuitec.com/creating-twitter-clone-using-html-css-jquery/</link>
+		<pubDate>Mon, 08 Jan 2018 13:38:09 +0000</pubDate>
+		<dc:creator><![CDATA[Bob at Genuitec]]></dc:creator>
+				<category><![CDATA[Eclipse]]></category>
+		<category><![CDATA[Genuitec]]></category>
+		<category><![CDATA[MyEclipse]]></category>
+		<category><![CDATA[Programming Tips]]></category>
+		<category><![CDATA[Webclipse]]></category>
+		<category><![CDATA[create twitter clone]]></category>
+		<category><![CDATA[twitter clone]]></category>
+		<category><![CDATA[webclipse]]></category>
+
+		<guid isPermaLink="false">https://www.genuitec.com/?p=545434</guid>
+		<description><![CDATA[<p>In this project, we are going to create a Twitter clone using HTML, CSS and jQuery only. We will create the Registration screen and Twitter wall, where you can post tweets up to 250 characters in length. You can also retweet and like the tweets. However, since we are not using any server and database, [&#8230;]</p>
+<p>The post <a rel="nofollow" href="https://www.genuitec.com/creating-twitter-clone-using-html-css-jquery/">Creating Twitter Clone Using HTML, CSS, jQuery</a> appeared first on <a rel="nofollow" href="https://www.genuitec.com">Genuitec</a>.</p>
+]]></description>
+		</item>
+		<item>
 		<title>Happy Holidays &#8211; from Our Family to Yours!</title>
 		<link>https://www.genuitec.com/happy-holidays-family/</link>
 		<pubDate>Sat, 23 Dec 2017 13:23:56 +0000</pubDate>
@@ -264,52 +302,14 @@
 <p>The post <a rel="nofollow" href="https://www.genuitec.com/testing-angular-apps-jasmine-karma/">Testing Angular Apps with Jasmine and Karma</a> appeared first on <a rel="nofollow" href="https://www.genuitec.com">Genuitec</a>.</p>
 ]]></description>
 		</item>
-		<item>
-		<title>Set Up and Use a Fake REST API with Angular</title>
-		<link>https://www.genuitec.com/set-use-fake-rest-api-angular/</link>
-		<pubDate>Fri, 20 Oct 2017 20:22:33 +0000</pubDate>
-		<dc:creator><![CDATA[Bob at Genuitec]]></dc:creator>
-				<category><![CDATA[Genuitec]]></category>
-		<category><![CDATA[How-to's]]></category>
-		<category><![CDATA[MyEclipse]]></category>
-		<category><![CDATA[Programming Tips]]></category>
-		<category><![CDATA[Webclipse]]></category>
-		<category><![CDATA[fake REST API]]></category>
-		<category><![CDATA[fake rest APIs]]></category>
-		<category><![CDATA[fake rest APIs with Angular 4]]></category>
-
-		<guid isPermaLink="false">https://www.genuitec.com/?p=540214</guid>
-		<description><![CDATA[<p>Often, when developing Angular applications, you do not have the backing REST APIs ready for testing. To avoid having to digress into developing web services, or being blocked, waiting for your back end team to provide them, you can use JSON server to provide a &#8220;fake&#8221; API. This article will show you how to use [&#8230;]</p>
-<p>The post <a rel="nofollow" href="https://www.genuitec.com/set-use-fake-rest-api-angular/">Set Up and Use a Fake REST API with Angular</a> appeared first on <a rel="nofollow" href="https://www.genuitec.com">Genuitec</a>.</p>
-]]></description>
-		</item>
-		<item>
-		<title>Angular 5 Features</title>
-		<link>https://www.genuitec.com/angular-5-release-imminent/</link>
-		<pubDate>Tue, 17 Oct 2017 23:54:26 +0000</pubDate>
-		<dc:creator><![CDATA[Brian Fernandes]]></dc:creator>
-				<category><![CDATA[Genuitec]]></category>
-		<category><![CDATA[MyEclipse]]></category>
-		<category><![CDATA[MyEclipse Top News]]></category>
-		<category><![CDATA[Programming Tips]]></category>
-		<category><![CDATA[Webclipse]]></category>
-		<category><![CDATA[angular 5]]></category>
-		<category><![CDATA[angular 5 breaking changes]]></category>
-		<category><![CDATA[angular 5 features]]></category>
-
-		<guid isPermaLink="false">https://www.genuitec.com/?p=540073</guid>
-		<description><![CDATA[<p>Front-end developers, rejoice &#8211; after a short delay, the Angular 5 release is scheduled for October 23rd!Update (November 1st): It&#8217;s finally here! After ten release candidates, Angular version 5.0.0, &#8220;pentagonal-donut&#8221;, has been released.Update (October 31st): Well, we&#8217;re still waiting for Angular version 5, and we&#8217;re now at 5.0.0 RC 9 &#8211; but, I&#8217;m sure you&#8217;d [&#8230;]</p>
-<p>The post <a rel="nofollow" href="https://www.genuitec.com/angular-5-release-imminent/">Angular 5 Features</a> appeared first on <a rel="nofollow" href="https://www.genuitec.com">Genuitec</a>.</p>
-]]></description>
-		</item>
 	</channel>
 </rss>
 
 <!-- Performance optimized by W3 Total Cache. Learn more: https://www.w3-edge.com/products/
 
-Object Caching 9411/9527 objects using disk
+Object Caching 9430/9546 objects using disk
 Page Caching using disk: enhanced (Requested URI is rejected)
 Content Delivery Network via resources.cloud.genuitec.com
-Database Caching 42/44 queries in 0.008 seconds using disk
+Database Caching using disk
 
- Served from: www.genuitec.com @ 2018-01-06 08:25:18 by W3 Total Cache -->
+ Served from: www.genuitec.com @ 2018-01-18 09:11:57 by W3 Total Cache -->

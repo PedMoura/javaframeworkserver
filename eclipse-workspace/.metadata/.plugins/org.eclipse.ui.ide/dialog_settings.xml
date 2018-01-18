@@ -5,9 +5,11 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/pedro/Desktop/asint"/>
+			<item value="/home/pedro/eclipse-workspace"/>
+			<item value="/home/pedro/Desktop/beforethepost"/>
 			<item value="/home/pedro/eclipse-workspace/sparkframeworkserver"/>
 			<item value="/home/pedro/Desktop"/>
-			<item value="/home/pedro/eclipse-workspace"/>
 			<item value="/home/pedro/Desktop/sparkframeworkserver"/>
 			<item value="/home/pedro/eclipse-workspace/spark-application-server-newroute"/>
 			<item value="/home/pedro/eclipse-workspace/spark-application-server-services"/>
