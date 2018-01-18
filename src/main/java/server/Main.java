@@ -101,6 +101,7 @@ public class Main {
         	//Class<?> newClass = DynamicRouteLoader.Loader("loadfromjar.Class1");
         	Class<?> newClass = DynamicRouteLoader.CustomLoader("Serverjar.jar");
         	objarray.add(newClass);
+        	
         	get("/obj/:n", (request1,response1) ->{
             	int index = Integer.parseInt(request1.params(":n"));
             	if(index < objarray.size()) {

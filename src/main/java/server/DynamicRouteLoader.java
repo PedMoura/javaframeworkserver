@@ -46,28 +46,32 @@ public class DynamicRouteLoader {
         		pathToJar = "/home/pedro/eclipse-workspace/sparkframeworkserver2/Customjar/" + name;
         	}
 
-        	System.out.println("path = " + pathToJar);
+        	
 			JarFile jarFile = new JarFile(pathToJar);
-			System.out.println("ainda nao rebentei");
         	Enumeration<JarEntry> e = jarFile.entries();
         	Class<?> c = null;
-
+        	
         	URL[] urls = { new URL("jar:file:" + pathToJar+"!/") };
+        	
         	URLClassLoader cl = URLClassLoader.newInstance(urls);
-
+     
         	while (e.hasMoreElements()) {
         	    JarEntry je = e.nextElement();
         	    if(je.isDirectory() || !je.getName().endsWith(".class")){
         	        continue;
         	    }
         	    // -6 because of .class
+        	    
         	    String className = je.getName().substring(0,je.getName().length()-6);
         	    className = className.replace('/', '.');
+        	    System.out.println("path1 = " + pathToJar);
         	    c = cl.loadClass(className);
+        	    System.out.println("path2 = " + pathToJar);
         	    break;
         	}
         	jarFile.close();
-        	if(name != "Serverjar.jar") {
+        	
+        	//if(name == "Serverjar.jar") {
 	        	File file = new File(pathToJar);
 	            
 	            if(file.delete())
@@ -78,7 +82,8 @@ public class DynamicRouteLoader {
 	            {
 	                System.out.println("Failed to delete the file");
 	            }
-        	}
+        	//}
+
         	return c;
         }
     }
