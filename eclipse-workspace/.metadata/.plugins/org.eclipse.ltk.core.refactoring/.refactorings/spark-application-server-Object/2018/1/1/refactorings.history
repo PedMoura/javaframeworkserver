@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;Class1.java&apos; to &apos;loadfromjar/src/loadfromjar&apos;&#x0A;- Original project: &apos;spark-application-server-Object&apos;&#x0A;- Destination element: &apos;loadfromjar/src/loadfromjar&apos;&#x0A;- Original element: &apos;server.Class1.java&apos;" description="Copy compilation unit" destination="=loadfromjar/src&lt;loadfromjar" element1="/src\/main\/java&lt;server{Class1.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1514823266416" units="1" version="1.0"/>
-</session>

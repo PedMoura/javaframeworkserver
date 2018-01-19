@@ -1,1 +1,0 @@
-spark-submit --class org.sparkexample.WordCount --master local[2] //home/pedro/eclipse-workspace/spark-application/target/spark-examples-1.0-SNAPSHOT.jar /home/pedro/eclipse-workspace/spark-application /home/pedro/Desktop/output.txt

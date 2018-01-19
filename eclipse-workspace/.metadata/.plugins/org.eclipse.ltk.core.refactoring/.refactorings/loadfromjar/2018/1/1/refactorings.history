@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;Class1.java&apos; to &apos;client/src/main/java/client&apos;&#x0A;- Original project: &apos;loadfromjar&apos;&#x0A;- Destination element: &apos;client/src/main/java/client&apos;&#x0A;- Original element: &apos;loadfromjar.Class1.java&apos;" description="Copy compilation unit" destination="=client/src\/main\/java&lt;client" element1="/src&lt;loadfromjar{Class1.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1515251446233" units="1" version="1.0"/>
-</session>
