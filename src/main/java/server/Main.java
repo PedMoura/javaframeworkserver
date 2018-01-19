@@ -3,9 +3,7 @@ package server;
 import static spark.Spark.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,11 +16,6 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 
 import org.apache.log4j.BasicConfigurator;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import spark.utils.IOUtils;
-
 
 public class Main {
 	
@@ -39,7 +32,7 @@ public class Main {
     	configurator();
     	ResponseClass res_options = new ResponseClass();
     	//port(4567);
-    	secure("/home/pedro/eclipse-workspace/sparkframeworkserver/deploy/keystore.jks", "asint2017", null, null);//ssl
+    	secure("deploy/keystore.jks", "asint2017", null, null);//ssl
     	
         File uploadDir = new File("Customjar");
         uploadDir.mkdir(); // create the upload directory if it doesn't exist
@@ -123,7 +116,7 @@ public class Main {
 		
 		post("/uploadclass", (req, res) -> {
 		
-			Path tempFile = Files.createTempFile(uploadDir.toPath(), "", ".jar");
+			Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
 					
 			req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 					

@@ -32,24 +32,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="/home/pedro/.m2/repository/com/sparkjava/spark-core/2.5/spark-core-2.5.jar" sourcepath="/home/pedro/.m2/repository/com/sparkjava/spark-core/2.5/spark-core-2.5-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="com.sparkjava"/>
-			<attribute name="maven.artifactId" value="spark-core"/>
-			<attribute name="maven.version" value="2.5"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="/home/pedro/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar" sourcepath="/home/pedro/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="log4j"/>
-			<attribute name="maven.artifactId" value="log4j"/>
-			<attribute name="maven.version" value="1.2.17"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/pedro/Desktop/json-20090211.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

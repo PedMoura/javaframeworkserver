@@ -10,6 +10,8 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import server.DynamicRouteLoader.TestClassLoader;
+
 public class DynamicRouteLoader {
 	
 	static class TestClassLoader extends ClassLoader {
@@ -41,9 +43,9 @@ public class DynamicRouteLoader {
         public Class<?> loadCustomClass(String name) throws ClassNotFoundException, Exception {
 			String pathToJar = null;
         	if(name == "Serverjar.jar") {
-        		pathToJar = "/home/pedro/eclipse-workspace/sparkframeworkserver2/Userjar/" + name;
+        		pathToJar = "Userjar/" + name;
         	}else {
-        		pathToJar = "/home/pedro/eclipse-workspace/sparkframeworkserver2/Customjar/" + name;
+        		pathToJar = "Customjar/" + name;
         	}
 
         	
@@ -70,19 +72,6 @@ public class DynamicRouteLoader {
         	    break;
         	}
         	jarFile.close();
-        	
-        	//if(name == "Serverjar.jar") {
-	        	File file = new File(pathToJar);
-	            
-	            if(file.delete())
-	            {
-	                System.out.println("File deleted successfully");
-	            }
-	            else
-	            {
-	                System.out.println("Failed to delete the file");
-	            }
-        	//}
 
         	return c;
         }
@@ -106,12 +95,15 @@ public class DynamicRouteLoader {
 	    
 	}
 	public static Class<?> CustomLoader(String classtoload) throws Exception {
-	    Class<?> cls = null;
-	    
-		cls = new TestClassLoader().loadCustomClass(classtoload);
-		
-	    System.out.println("---------------------------------------------loaded custom method------------------------------------");
-	    return cls;
+	    Class<?> cls = DynamicRouteLoader.class;
+	    cls = new TestClassLoader().loadCustomClass(classtoload);
+		URL[] urls={ cls.getProtectionDomain().getCodeSource().getLocation() };
+		ClassLoader delegateParent = cls.getClassLoader().getParent();
+		try(URLClassLoader cl=new URLClassLoader(urls, delegateParent)) {
+			Class<?> reloaded = cl.loadClass(cls.getName());
+		    System.out.println("---------------------------------------------loaded custom method------------------------------------");
+		    return reloaded;
+		}
 	    
 	}
 }
