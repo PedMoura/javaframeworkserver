@@ -7,5 +7,5 @@ On the IDE import the project <br />
 open src/main/java <br />
 run server.main <br /> <br />
 
-Folder Userjar contains the serverjar.jar which contains a Class1.class to load
+Folder Userjar contains the serverjar.jar which contains a Class1.class to load<br />
 Folder Customjar will have the uploaded jars 
