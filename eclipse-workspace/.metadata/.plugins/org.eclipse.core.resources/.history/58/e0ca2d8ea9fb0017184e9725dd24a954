@@ -1,0 +1,68 @@
+package asint;
+
+import spark.*;
+import spark.utils.IOUtils;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.nio.file.*;
+import static spark.Spark.*;
+import static spark.debug.DebugScreen.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        enableDebugScreen();
+
+        File uploadDir = new File("upload");
+        uploadDir.mkdir(); // create the upload directory if it doesn't exist
+
+       // staticFiles.externalLocation("upload");
+
+        get("/upload", (req, res) ->
+                  "<form method='post' enctype='multipart/form-data'>" // note the enctype
+                + "    <input type='file' name='uploaded_file' accept=''>" // make sure to call getPart using the same "name" in the post
+                + "    <button>Upload file</button>"
+                + "</form>"
+        );
+
+        post("/upload", (req, res) -> {
+
+            Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
+/*
+            req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+
+            try (InputStream input = req.raw().getPart("uploaded_file").getInputStream()) { // getPart needs to use same "name" as input field in form
+                Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+*/
+            Part filePart = req.raw().getPart("uploaded_file");
+
+            try (InputStream inputStream = filePart.getInputStream()) {
+                OutputStream outputStream = new FileOutputStream("upload" + filePart.getSubmittedFileName());
+                IOUtils.copy(inputStream, outputStream);
+                outputStream.close();
+            }
+            logInfo(req, tempFile);
+            return "You uploaded this file:" + tempFile.getFileName();
+
+        });
+
+    }
+
+    // methods used for logging
+    private static void logInfo(Request req, Path tempFile) throws IOException, ServletException {
+        System.out.println("Uploaded file '" + getFileName(req.raw().getPart("uploaded_file")) + "' saved as '" + tempFile.toAbsolutePath() + "'");
+    }
+
+    private static String getFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+
+}

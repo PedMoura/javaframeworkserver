@@ -1,0 +1,23 @@
+package my.app;
+
+import static spark.Spark.*;
+
+import org.apache.log4j.BasicConfigurator;
+
+
+public class Main {
+	
+	public static void configurator() {
+		BasicConfigurator.configure();
+	}
+		
+    public static void main(String[] args) {
+    	configurator();
+        get("/hello", (req, res) -> "Hello World");
+        get("/echo/:id", (req,res) -> echo(2));
+    }
+    
+    public static String echo(int id) {
+    	return "Echo " + id;
+    }
+}
