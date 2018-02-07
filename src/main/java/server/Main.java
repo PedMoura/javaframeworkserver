@@ -4,6 +4,7 @@ import static spark.Spark.*;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +17,10 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 
 import org.apache.log4j.BasicConfigurator;
-
+/*
+ * html com lista de classes e de endpoints
+ * ler do json o metodo a executar
+ * */
 public class Main {
 	
 	static List<String> userlist = new ArrayList<String>();
@@ -61,7 +65,7 @@ public class Main {
         }); 
         
         
-        get("/Dynamic", (request,response) -> { //Dynamic Route - the method is loaded during runtime
+        get("/dynamic", (request,response) -> { //Dynamic Route - the method is loaded during runtime
         	Class<?> newClass = DynamicRouteLoader.Loader("ResponseClass");
         	return newClass.getMethod("Dynamic").invoke(newClass.newInstance());       	
         });        	
@@ -79,8 +83,9 @@ public class Main {
         	return request.ip() + " request " + request.url();
         });/*
         get("/stop", (request,response) ->{ // stops the server
+        	return "Server has stopped";
         	stop();
-        	return "";
+        	
         });*/
         get("/teste", (request,response) -> {
         	get("/"+routeIndex, (request1,response1) ->{
@@ -103,8 +108,8 @@ public class Main {
             		return "no such object";
             	}
         	});
-        	//return objarray.get(0).getMethod("exec").invoke(objarray.get(0).newInstance());
-        	return "class loaded";
+        	return "class " + newClass.getName()
+			+ " loaded and stored on index = " + (objarray.size()-1);
         });
 
         get("/uploadclass", (req, res) ->
@@ -145,8 +150,33 @@ public class Main {
             		return "no such object";
             	}
         	});
-        	return "class loaded";
+        	return "class " + newClass.getName()
+			+ " loaded and stored on index = " + (objarray.size()-1);
         });
+
+    	get("/getclasslist", (request,response) -> {
+    		String returnval = "";
+    		for(int index = 0; index < objarray.size(); index ++) {
+    			Class<?> cl = objarray.get(index);
+    			Method[] methods = cl.getDeclaredMethods();
+    			for (int i = 0; i < methods.length; i++) {
+    				System.out.println("public method: " + methods[i]);
+    			}
+    			if(index == 0) {
+    				returnval += "The server has this class (";
+    			}else {
+    				returnval += "<br>";
+    				returnval += "and this class (";
+    			}
+    			returnval += cl.getName() + ") stored in index = " + index + "<br>";
+    			returnval += "which has the following methods: " + "<br>";
+    			for (int i = 0; i < methods.length; i++) {
+    				returnval += methods[i] + "<br>";
+    			}
+//    			returnval += objarray.get(index).getMethods() + "<br>";
+    		}
+    		return returnval;
+    	});
 
     }
 

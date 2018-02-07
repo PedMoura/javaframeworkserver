@@ -1,16 +1,12 @@
 package server;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import server.DynamicRouteLoader.TestClassLoader;
 
 public class DynamicRouteLoader {
 	
@@ -57,9 +53,7 @@ public class DynamicRouteLoader {
         	    
         	    String className = je.getName().substring(0,je.getName().length()-6);
         	    className = className.replace('/', '.');
-        	    System.out.println("path1 = " + pathToJar);
         	    c = cl.loadClass(className);
-        	    System.out.println("path2 = " + pathToJar);
         	    break;
         	}
         	jarFile.close();
