@@ -2,8 +2,13 @@ package server;
 
 import static spark.Spark.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,12 +16,19 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 
 import org.apache.log4j.BasicConfigurator;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import spark.ModelAndView;
+import spark.template.velocity.VelocityTemplateEngine;
 /*
  * html com lista de classes e de endpoints
  * ler do json o metodo a executar
@@ -37,17 +49,22 @@ public class Main {
     	ResponseClass res_options = new ResponseClass();
     	//port(4567);
     	secure("deploy/keystore.jks", "asint2017", null, null);//ssl
+    	staticFiles.location("/public");
     	
         File uploadDir = new File("Customjar");
         uploadDir.mkdir(); // create the upload directory if it doesn't exist
     	/*
     	 * ROUTES
     	 */
-    	get("/", (request,response) -> {
-    		response.redirect("/hello");
-    		return "";
-    	});
+
     	get("/hello", (request, response) -> "Hello World "); //hello world
+    	
+    	get("template-example", (req, res) -> {
+    	    Map<String, Object> model = new HashMap<>();
+    	    return new VelocityTemplateEngine().render(
+    	        new ModelAndView(model, "/public/Classlist.html")
+    	    );
+    	});
     	
     	get("/hello/:username", (request,response) -> { //redirect to hello world and store the user
     		ResponseClass.adduser(request.params("username"));
@@ -100,14 +117,58 @@ public class Main {
         	Class<?> newClass = DynamicRouteLoader.CustomLoader("Serverjar.jar");
         	objarray.add(newClass);
         	
+        	//pede upload do json com o metodo
         	get("/obj/:n", (request1,response1) ->{
             	int index = Integer.parseInt(request1.params(":n"));
             	if(index < objarray.size()) {
-            		return objarray.get(index).getMethod("exec").invoke(objarray.get(index).newInstance());
+      			  return "<body>"+
+      		    		"<h2>Please upload a json file with the method that you want to execute</h2>"+
+      		    		"<hr>"
+      		    		+"<form method='post' enctype='multipart/form-data'>" 
+	        			+ "    <input type='file' name='uploaded_file' accept=''>" 
+	        			+ "    <button>Upload file</button>"
+	        			+ "</form>"
+	      			    + "</body>";
             	}else {
             		return "no such object";
             	}
         	});
+        	
+        	//le o metodo atraves do json e corre o respectivo metodo
+        	post("/obj/:n", (request1,response1) ->{
+        		Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
+        		JSONParser parser = new JSONParser();
+        		String method = null;
+				
+        		request1.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+    					
+    			try (InputStream input = request1.raw().getPart("uploaded_file").getInputStream()) { // getPart needs to use same "name" as input field in form
+                    String filename = getFileName(request1.raw().getPart("uploaded_file"));
+                	Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);       
+                    
+                    //Directoria para guardar os ficheiros upload
+            		Path destination = Paths.get("Customjar/" + filename);
+                    Files.copy(tempFile, destination, StandardCopyOption.REPLACE_EXISTING);
+                    
+            		Object obj = parser.parse(new FileReader("Customjar/"+filename));
+            		JSONObject jsonObject = (JSONObject) obj;
+            		Files.delete(destination);
+
+            		method = (String) jsonObject.get("Method");
+                    tempFile.toFile().delete();
+               
+                    
+                }
+    			int index = Integer.parseInt(request1.params(":n"));
+            	if(index < objarray.size()) {
+            		return objarray.get(index).getMethod(method).invoke(objarray.get(index).newInstance());
+            	}else {
+            		return "no such object";
+            	}
+    			//return "You uploaded this file: " + getFileName(request1.raw().getPart("uploaded_file")) + " with method: " + method; 
+        		
+        	});
+
         	return "class " + newClass.getName()
 			+ " loaded and stored on index = " + (objarray.size()-1);
         });
@@ -126,30 +187,73 @@ public class Main {
 			req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 					
 			try (InputStream input = req.raw().getPart("uploaded_file").getInputStream()) { // getPart needs to use same "name" as input field in form
-                System.out.println(getFileName(req.raw().getPart("uploaded_file")));
+                
             	Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);       
                 
                 //Directoria para guardar os ficheiros upload
         		Path destination = Paths.get("Customjar/" + getFileName(req.raw().getPart("uploaded_file")));
                 Files.copy(tempFile, destination, StandardCopyOption.REPLACE_EXISTING);
                 tempFile.toFile().delete();
-           
+                
             }
 			return "You uploaded this file: " + getFileName(req.raw().getPart("uploaded_file")) ;
 					
 		});
 		
-        get("createobject/:classname", (request,response) -> {//TODO not implemented
+        get("createobject/:classname", (request,response) -> {
         	Class<?> newClass = DynamicRouteLoader.CustomLoader(request.params(":classname"));
         	objarray.add(newClass);
+        	//pede upload do json com o metodo
         	get("/obj/:n", (request1,response1) ->{
             	int index = Integer.parseInt(request1.params(":n"));
             	if(index < objarray.size()) {
-            		return objarray.get(index).getMethod("exec").invoke(objarray.get(index).newInstance());
+      			  return "<body>"+
+      		    		"<h2>Please upload a json file with the method that you want to execute</h2>"+
+      		    		"<hr>"
+      		    		+"<form method='post' enctype='multipart/form-data'>" 
+	        			+ "    <input type='file' name='uploaded_file' accept=''>" 
+	        			+ "    <button>Upload file</button>"
+	        			+ "</form>"
+	      			    + "</body>";
             	}else {
             		return "no such object";
             	}
         	});
+        	//le o metodo atraves do json e corre o respectivo metodo
+        	post("/obj/:n", (request1,response1) ->{
+        		Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
+        		JSONParser parser = new JSONParser();
+        		String method = null;
+				
+        		request1.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+    					
+    			try (InputStream input = request1.raw().getPart("uploaded_file").getInputStream()) { // getPart needs to use same "name" as input field in form
+                    String filename = getFileName(request1.raw().getPart("uploaded_file"));
+                	Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);       
+                    
+                    //Directoria para guardar os ficheiros upload
+            		Path destination = Paths.get("Customjar/" + filename);
+                    Files.copy(tempFile, destination, StandardCopyOption.REPLACE_EXISTING);
+                    
+            		Object obj = parser.parse(new FileReader("Customjar/"+filename));
+            		JSONObject jsonObject = (JSONObject) obj;
+            		Files.delete(destination);
+
+            		method = (String) jsonObject.get("Method");
+                    tempFile.toFile().delete();
+               
+                    
+                }
+    			int index = Integer.parseInt(request1.params(":n"));
+            	if(index < objarray.size()) {
+            		return objarray.get(index).getMethod(method).invoke(objarray.get(index).newInstance());
+            	}else {
+            		return "no such object";
+            	}
+    			//return "You uploaded this file: " + getFileName(request1.raw().getPart("uploaded_file")) + " with method: " + method; 
+        		
+        	});
+        	
         	return "class " + newClass.getName()
 			+ " loaded and stored on index = " + (objarray.size()-1);
         });
@@ -159,9 +263,6 @@ public class Main {
     		for(int index = 0; index < objarray.size(); index ++) {
     			Class<?> cl = objarray.get(index);
     			Method[] methods = cl.getDeclaredMethods();
-    			for (int i = 0; i < methods.length; i++) {
-    				System.out.println("public method: " + methods[i]);
-    			}
     			if(index == 0) {
     				returnval += "The server has this class (";
     			}else {
@@ -178,6 +279,55 @@ public class Main {
     		return returnval;
     	});
 
+    	get("/classlist", (request,response) -> {
+    		String returnval = "<!DOCTYPE html>"+
+    		    	"<html>"+
+    		    	"<head>"+
+    		    	"<title>Here you have a list of the available classes</title>"+
+    		    	"</head>"+
+    		    	"<body>"+
+    		    		"<h2>Here you have a list of the available classes</h2>"+
+    		    		"<hr>";
+    		for(int index = 0; index < objarray.size(); index ++) {
+    			Class<?> cl = objarray.get(index);
+    			
+    			if(index == 0) {
+    			}else {
+    				returnval += "<br>";
+    			}
+    			
+    			returnval += cl.getName() + " stored in index = " + index + "<br>";
+    			returnval += "<form action=\"https://localhost:4567/getmethods/" + index + "\">"+
+    	    		    "<input type=\"submit\" value=\"Go to the methods from this class\" />" + 
+    	    		    "</form>";
+    		}
+    		return returnval + "</body>"+
+    		    	"</html>";
+    	});
+    	
+    	get("/getmethods/:index", (request,response) -> {
+    		if(Integer.parseInt(request.params(":index")) >= objarray.size()) {
+    			return "no such object";
+        	}
+    		String returnval ="The class has the following methods: <br>";
+    		Method[] methods = objarray.get(Integer.parseInt(request.params(":index"))).getDeclaredMethods();
+    		for (int i = 0; i < methods.length; i++) {
+				returnval += methods[i] + "<br>";
+			}
+    		
+    		return returnval;
+    	});
+    	/*}
+    	"<!DOCTYPE html>"+
+    	"<html>"+
+    	"<head>"+
+    	"<title>Here you have a list of the available classes</title>"+
+    	"</head>"+
+    	"<body>"+
+    		"<h2>Here you have a list of the available classes</h2>"+
+    		"<hr>"+
+    	"</body>"+
+    	"</html>");*/
     }
 
 
@@ -193,4 +343,5 @@ public class Main {
         }
         return null;
     }
+
 }
